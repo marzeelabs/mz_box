@@ -125,7 +125,7 @@ root directory. -->
   <target name="clean"
           description="Removes a Drupal installation. Use carefully!">
     <foreach list="includes,misc,modules,profiles,scripts,sites,themes" param="item" target="delete-dir" delimiter=","/>
-    <foreach list=".htaccess,authorize.php,CHANGELOG.txt,LICENSE.txt,COPYRIGHT.txt,cron.php,index.php,INSTALL.mysql.txt,INSTALL.pgsql.txt,install.php,INSTALL.sqlite.txt,INSTALL.txt,MAINTAINERS.txt,README.txt,robots.txt,update.php,UPGRADE.txt,web.config,xmlrpc.php" param="item" target="delete-file" delimiter=","/>
+    <foreach list=".htaccess,authorize.php,CHANGELOG.txt,LICENSE.txt,COPYRIGHT.txt,cron.php,index.php,INSTALL.mysql.txt,INSTALL.pgsql.txt,install.php,INSTALL.sqlite.txt,INSTALL.txt,MAINTAINERS.txt,README.txt,PATCHES.txt,robots.txt,update.php,UPGRADE.txt,web.config,xmlrpc.php" param="item" target="delete-file" delimiter=","/>
   </target>
 
   <target name="delete-dir">
@@ -213,8 +213,8 @@ Configuration of which installation profile and database to use in done in
           unless="project.installed">
     <drush command="site-install" assume="yes">
       <option name="db-url">${drupal.db.url}</option>
-      <option name="account-name">admin</option>
-      <option name="account-pass">admin</option>
+      <option name="account-name">${drupal.admin.name}</option>
+      <option name="account-pass">${drupal.admin.pass}</option>
       <option name="site-name">${drupal.site.name}</option>
       <param>${drupal.profile}</param>
     </drush>
@@ -275,6 +275,9 @@ part of make target.-->
   <target name="enable-dev-mode"
           description="Configures this installation for use in development"
           depends="setup-phing-drush">
+    <drush command="en" assume="yes">
+      <param>features,migrate,migrate_ui</param>
+    </drush>
 
   </target>
 
