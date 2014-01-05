@@ -128,7 +128,7 @@ root directory. -->
         </drush>
       </else>
     </if>
-    
+
     <!-- Clean the temporary directory, we don't need this anymore -->
     <delete dir="${phing.temp_dir}"/>
 
@@ -233,6 +233,10 @@ Configuration of which installation profile and database to use in done in
       <param>${drupal.profile}</param>
     </drush>
 
+    <!-- Revert features so all configuration is guaranteed to be in place. Since features 2.0 this is necessary -->
+    <drush command="features-revert-all" assume="yes">
+    </drush>
+
     <phingcall target="setup-permissions"/>
 
     <!-- Enable RewriteBase in .htaccess if the installation is to be
@@ -272,6 +276,7 @@ part of make target.-->
   <target name="config-masquerade"
           description="Configure masquerade"
           depends="run-migrate">
+    <!-- Little trick to automatically configure masquerade to show quick switches for two users. Very useful for quick role testing. -->
     <exec command='php -r "print json_encode(array(0 => 2, 1 => 3));" | drush vset --yes --format=json masquerade_quick_switches -'
       escape="false"
       checkreturn="true"
@@ -290,7 +295,7 @@ part of make target.-->
           description="Configures this installation for use in development"
           depends="setup-phing-drush">
     <drush command="en" assume="yes">
-      <param>features,migrate,migrate_ui</param>
+      <param>migrate,migrate_ui</param>
     </drush>
 
   </target>
