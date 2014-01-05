@@ -110,11 +110,25 @@ root directory. -->
     </phingcall>
 
     <!-- Make the project in the current directory. Easiest for deployment -->
-    <drush command="make" assume="yes">
-      <param>${phing.temp_dir}/${drupal.make.makefile}</param>
-      <param>.</param>
-    </drush>
-
+    <if>
+      <istrue value="${drupal.make.working_copy}"/>
+      <then>
+        <!-- Make and keep the working copies -->
+        <drush command="make" assume="yes">
+          <param>${phing.temp_dir}/${drupal.make.makefile}</param>
+          <option name="working-copy"></option>
+          <param>.</param>
+        </drush>
+      </then>
+      <else>
+        <!-- Normal drush make -->
+        <drush command="make" assume="yes">
+          <param>${phing.temp_dir}/${drupal.make.makefile}</param>
+          <param>.</param>
+        </drush>
+      </else>
+    </if>
+    
     <!-- Clean the temporary directory, we don't need this anymore -->
     <delete dir="${phing.temp_dir}"/>
 
