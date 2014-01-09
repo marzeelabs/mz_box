@@ -105,8 +105,12 @@ root directory. -->
 
     <!-- Clone the makefile in a temporary directory-->
     <phingcall target="setup-git-repo">
-      <property name="repo.dir" value="${phing.tempdir}"/>
-      <property name="repo.url" value="${drupal.make.repo}" />
+      <property name="repo.dir" 
+                value="${phing.tempdir}"/>
+      <property name="repo.url"
+                value="${drupal.make.repo}" />
+      <property name="repo.revision"
+                value="${drupal.make.revision}" />
     </phingcall>
 
     <!-- Make the project in the current directory. Easiest for deployment -->
@@ -270,6 +274,18 @@ part of make target.-->
   <target name="run-migrate"
           description="Migrate content into the installed site"
           depends="setup-phing-drush">
+    <if>
+      <istrue value="${drupal.migrate}"/>
+      <then>
+        <!-- Register automatically again. Sometimes migrate tasks are not properly registered on a fresh install. -->
+        <drush command="migrate-auto-register" assume="yes">
+        </drush>
+        <!-- Migrate all. Here we assume we do have the migrate module enabled, but this is part of our standard stack. -->
+        <drush command="mi" assume="yes">
+          <option name="all"></option>
+        </drush>
+      </then>
+    </if>
   </target>
 
   <!-- ### Configure masquerade -->
