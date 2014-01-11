@@ -98,10 +98,14 @@ root directory. -->
     </if>
   </target>
 
-  <!-- ### Rebuilds the Foundation profile using Drush make -->
+  <target name="make-build"
+          depends="make,build"
+          description="Makes and builds the profile">
+  </target>
+
   <target name="make"
           depends="setup-phing-drush"
-          description="Rebuilds the Foundation profile using Drush make">
+          description="Rebuilds the profile using Drush make">
 
     <!-- Clone the makefile in a temporary directory-->
     <phingcall target="setup-git-repo">
@@ -311,7 +315,7 @@ part of make target.-->
           description="Configures this installation for use in development"
           depends="setup-phing-drush">
     <drush command="en" assume="yes">
-      <param>migrate,migrate_ui</param>
+      <param>devel</param>
     </drush>
 
   </target>
