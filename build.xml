@@ -29,11 +29,9 @@ These properties contain information regarding the individual project and/or
 environment such as which version of Drupal you are using, how to create a
 database and the names of your custom modules.
 
-All available properties are described and set to a default value in
-[`build.default.properties`](https://raw.github.com/reload/phing-drupal-template/master/build.default.properties).
-You should create your own properties file by copying the
-`build.default.properties` file to the root directory, rename it
-`build.properties` and modify it according to your project.
+All available properties are described and set to a default value in `build.default.properties`.
+You should create your own properties file by copying the `build.default.properties` file to the root 
+directory, rename it `build.properties` and modify it according to your project.
 
 Both property files are loaded so your custom `build.properties` file should
 only contain properties where you want to override the default value e.g. set
@@ -143,7 +141,7 @@ root directory. -->
   </target>
 
 
-  <!-- @todo -->
+  <!-- Removes all files of the Drupal installation -->
   <target name="clean"
           description="Removes a Drupal installation. Use carefully!">
     <foreach list="includes,misc,modules,profiles,scripts,sites,themes,phing" param="item" target="delete-dir" delimiter=","/>
@@ -178,15 +176,6 @@ called from `init` target. -->
               value="${project.basedir}/sites/all/drush" />
 
   </target>
-
-<!-- ### Setup file sets
-
-Setup file sets - patterns for different aspects of the source code.
-These are used in other targets.
-
-This is part of the initialization of the build. This target should only be
-called from `init` target. -->
-
 
   <!-- ### Setup permissions
 
@@ -295,9 +284,14 @@ part of make target.-->
   <!-- ### Configure masquerade -->
   <target name="config-masquerade"
           description="Configure masquerade"
-          depends="run-migrate">
+          depends="run-migrate, setup-phing-drush">
+    <drush command="user-create" assume="yes">
+      <param>editor</param>
+      <option name="password">editor</option>
+      <option name="mail">editor@example.org</option>
+    </drush>
     <!-- Little trick to automatically configure masquerade to show quick switches for two users. Very useful for quick role testing. -->
-    <exec command='php -r "print json_encode(array(0 => 2, 1 => 3));" | drush vset --yes --format=json masquerade_quick_switches -'
+    <exec command='php -r "print json_encode(array(0 => 3));" | drush vset --yes --format=json masquerade_quick_switches -'
       escape="false"
       checkreturn="true"
       passthru="true" />
@@ -317,7 +311,6 @@ part of make target.-->
     <drush command="en" assume="yes">
       <param>devel</param>
     </drush>
-
   </target>
 
   <!-- ### Clone a git repository -->
