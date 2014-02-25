@@ -9,4 +9,3 @@ php:
 script: 
  - ./.travis.sh
  - phing make
- - phing build
