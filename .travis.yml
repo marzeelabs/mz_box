@@ -6,6 +6,13 @@ php:
   # aliased to a recent 5.3.x version
   - 5.3
 
+install:
+ # Install the latest Drush 6.
+ - export PATH="$HOME/.composer/vendor/bin:$PATH"
+ - composer global require drush/drush:6.*
+
 script: 
  - ./.travis-setup.sh
  - phing make
+
+
