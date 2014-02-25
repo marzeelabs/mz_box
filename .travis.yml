@@ -7,5 +7,5 @@ php:
   - 5.3
 
 script: 
- - ./.travis.sh
+ - ./.travis-setup.sh
  - phing make
