@@ -26,4 +26,6 @@ script:
  - phing make
  - phing build
 
+notifications:
+ flowdock: 5c81bb34f6ca9c86da0d32d92596a3db
 
