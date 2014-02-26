@@ -6,13 +6,24 @@ php:
   # aliased to a recent 5.3.x version
   - 5.3
 
+mysql:
+ database: drupal
+ username: root
+ encoding: utf8
+
 install:
  # Install the latest Drush 6.
  - export PATH="$HOME/.composer/vendor/bin:$PATH"
  - composer global require drush/drush:6.*
+ # Setup phing settings
+ - touch build.properties
+ - echo 'drupal.db.url = mysql://root:@127.0.0.1/drupal' >> build.properties
 
-script: 
+script:
+ # Setup phing
  - ./.travis-setup.sh
+ # Run Phing commands
  - phing make
+ - phing build
 
 
