@@ -1,6 +1,8 @@
 # MZ Box 
 **A Phing Drupal boilerplate to kick-start Drupal development**
 
+[![Build Status](https://travis-ci.org/marzeelabs/mz_box.png?branch=master)](https://travis-ci.org/marzeelabs/mz_box)
+
 Boilerplate project to kick-start Drupal development using the excellent [Phing](http://www.phing.info) build system. For a general introduction to using Phing with Drupal, read our [blog post](http://marzeelabs.org).
 
 ### Getting started
