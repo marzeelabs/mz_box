@@ -267,6 +267,14 @@ part of make target.-->
   <target name="run-migrate"
           description="Migrate content into the installed site"
           depends="setup-phing-drush">
+    <!-- Enable migrate and migrate_ui -->
+    <drush command="en" assume="yes">
+      <param>migrate,migrate_ui</param>
+    </drush>
+    <!-- Enable mz_migrate_example for context fixture demonstration purposes. -->
+    <drush command="en" assume="yes">
+      <param>mz_migrate_example</param>
+    </drush>
     <if>
       <istrue value="${drupal.migrate}"/>
       <then>
